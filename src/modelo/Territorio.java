@@ -47,6 +47,19 @@ public class Territorio {
 
     }
 
+    //Este metodo retorna una lista de Strings con los nombres de los territorios enemigos.
+
+    public String enemigos(){
+        String enemigo = "";
+        for (Territorio t: vecinos) {
+            if(this.getPertenece() != t.getPertenece()){
+                enemigo = t.getNombre();
+            }
+        }
+        return enemigo;
+    }
+
+
     //Getters y Setters
 
     public String getNombre() {

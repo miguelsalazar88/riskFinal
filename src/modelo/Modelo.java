@@ -53,6 +53,7 @@ public class Modelo {
             territoriosModelo.get(idDestino).setSoldados(territoriosModelo.get(idDestino).getSoldados() + num);
             this.ventana.getPanel().setTerritoriosVista(territoriosModelo);
             this.ventana.getPanel().repaint();
+            this.ventana.setMensaje("Se han movido " + num + " tropas de " +origen + " a " + destino);
         }
 
         territoriosModelo.stream().forEach(t -> t.setVisitado(false));
@@ -180,6 +181,95 @@ public class Modelo {
         this.ventana.getPanel().repaint();
 
     }
+
+    //Esta parte del código tiene el turno de la máquina.
+
+    public int masGrande(){
+
+        int tMasGrande = 0;
+
+        for (int i=0; i<territoriosModelo.size(); i++) {
+            if(tieneEnemigos(buscarTerritorio(territoriosModelo.get(i).getNombre()))
+                    && territoriosModelo.get(i).getPertenece()=='a'
+                    && territoriosModelo.get(i).getSoldados() >= territoriosModelo.get(tMasGrande).getSoldados()){
+                    tMasGrande = i;
+                    //Prueba
+                    this.ventana.setMensaje("Mas grande: " + territoriosModelo.get(i).getNombre());
+            }
+        }
+
+        this.ventana.setMensaje("Ahora es el turno de los azules!");
+        return tMasGrande;
+    }
+
+    //Mueve las tropas hacia el territorio más grande.
+
+    public void moverTropasMaquina(int tmasGrande){
+
+        ArrayList<String> vecinos = territoriosModelo.get(tmasGrande).buscarCaminos();
+
+        //Prueba
+        this.ventana.setMensaje(vecinos.toString());
+
+        for (String v: vecinos) {
+            moverTropas(v,territoriosModelo.get(tmasGrande).getNombre()
+                    ,territoriosModelo.get(buscarTerritorio(v)).getSoldados()-1);
+
+            this.ventana.getPanel().setTerritoriosVista(territoriosModelo);
+            this.ventana.getPanel().repaint();
+        }
+
+
+    }
+
+    public void ataqueMaquina(int tMasGrande){
+        while (tieneEnemigos(tMasGrande) && (territoriosModelo.get(tMasGrande).getSoldados()>1)){
+            atacar(territoriosModelo.get(tMasGrande).getNombre(),territoriosModelo.get(tMasGrande).enemigos());
+        }
+
+    }
+
+    public int contarTropas(char pertenece){
+
+        int num = 0;
+
+        for (int i = 0; i < territoriosModelo.size(); i++) {
+            if(territoriosModelo.get(i).getPertenece() == pertenece){
+                num += territoriosModelo.get(i).getSoldados();
+            }
+        }
+        return num;
+
+    }
+
+    //Busca el territorio en el arreglo y retorna su indice.
+
+    public int buscarTerritorio(String nombre){
+        int id = -1;
+
+        for (int i = 0; i < territoriosModelo.size(); i++) {
+            if (territoriosModelo.get(i).getNombre().equals(nombre)){
+                id = i;
+            }
+        }
+        return id;
+    }
+
+    //Revisa si el territorio tiene vecinos enemigos
+
+    public boolean tieneEnemigos(int id){
+        boolean tiene = false;
+
+        for (Territorio t: territoriosModelo.get(id).getVecinos()){
+            if(territoriosModelo.get(id).getPertenece() != t.getPertenece()){
+                tiene = true;
+            }
+        }
+        return tiene;
+    }
+
+
+
 
     //Getters y Setters
 

@@ -45,6 +45,11 @@ public class Controller implements ActionListener, ItemListener {
 
             this.modelo.moverTropas(origen, destino, num);
         }
+
+        if(e.getSource().equals(this.vista.getBotonTerminarTurno())){
+                this.modelo.moverTropasMaquina(this.modelo.masGrande());
+                this.modelo.ataqueMaquina(this.modelo.masGrande());
+        }
     }
 
     @Override
