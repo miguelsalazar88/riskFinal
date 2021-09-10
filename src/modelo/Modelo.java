@@ -193,12 +193,9 @@ public class Modelo {
                     && territoriosModelo.get(i).getPertenece()=='a'
                     && territoriosModelo.get(i).getSoldados() >= territoriosModelo.get(tMasGrande).getSoldados()){
                     tMasGrande = i;
-                    //Prueba
-                    this.ventana.setMensaje("Mas grande: " + territoriosModelo.get(i).getNombre());
             }
         }
 
-        this.ventana.setMensaje("Ahora es el turno de los azules!");
         return tMasGrande;
     }
 
@@ -219,12 +216,15 @@ public class Modelo {
             this.ventana.getPanel().repaint();
         }
 
-
     }
 
     public void ataqueMaquina(int tMasGrande){
-        while (tieneEnemigos(tMasGrande) && (territoriosModelo.get(tMasGrande).getSoldados()>1)){
-            atacar(territoriosModelo.get(tMasGrande).getNombre(),territoriosModelo.get(tMasGrande).enemigos());
+        try{
+            while(territoriosModelo.get(masGrande()).getSoldados()>1){
+                atacar(territoriosModelo.get(masGrande()).getNombre(),territoriosModelo.get(masGrande()).enemigos());
+            }
+        }
+        catch (Exception e){
         }
 
     }
@@ -239,7 +239,6 @@ public class Modelo {
             }
         }
         return num;
-
     }
 
     //Busca el territorio en el arreglo y retorna su indice.
