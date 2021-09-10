@@ -47,9 +47,18 @@ public class Controller implements ActionListener, ItemListener {
         }
 
         if(e.getSource().equals(this.vista.getBotonTerminarTurno())){
+                this.vista.setMensaje("Ahora es el turno de los azules!");
                 this.modelo.moverTropasMaquina(this.modelo.masGrande());
                 this.modelo.ataqueMaquina(this.modelo.masGrande());
         }
+
+        int tropasRojas = modelo.contarTropas('r');
+        int tropasAzules = modelo.contarTropas('a');
+
+        if (tropasAzules==0 || tropasRojas==0){
+            JOptionPane.showMessageDialog(null, "El juego ha terminado");
+        }
+
     }
 
     @Override
@@ -85,4 +94,7 @@ public class Controller implements ActionListener, ItemListener {
 
 
     }
+
+
+
 }
