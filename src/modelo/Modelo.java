@@ -40,9 +40,11 @@ public class Modelo {
         }
 
         if(territoriosModelo.get(idOrigen).getSoldados()==1){
-            JOptionPane.showMessageDialog(null,"No puedes dejar terrotorios sin tropas");
-            this.ventana.getPanel().setTerritoriosVista(territoriosModelo);
-            this.ventana.getPanel().repaint();
+            if (territoriosModelo.get(idOrigen).getPertenece()=='r'){
+                JOptionPane.showMessageDialog(null, "No puedes dejar terrotorios sin tropas");
+                this.ventana.getPanel().setTerritoriosVista(territoriosModelo);
+                this.ventana.getPanel().repaint();
+            }
 
         }
 
@@ -185,7 +187,7 @@ public class Modelo {
     //Esta parte del código tiene el turno de la máquina.
 
     public int masGrande(){
-
+        boolean bandera = false;
         int tMasGrande = 0;
 
         for (int i=0; i<territoriosModelo.size(); i++) {
@@ -193,7 +195,28 @@ public class Modelo {
                     && territoriosModelo.get(i).getPertenece()=='a'
                     && territoriosModelo.get(i).getSoldados() >= territoriosModelo.get(tMasGrande).getSoldados()){
                     tMasGrande = i;
+                    bandera=true;
+                System.out.println("Entramos");
             }
+        }
+        if (bandera==false){
+            int tieneE = -1;
+            ArrayList<String> caminos = new ArrayList<String>();
+            for (int i = 0; i < territoriosModelo.size(); i++) {
+                if(tieneEnemigos(i)){
+                    tieneE = i;
+                    caminos = territoriosModelo.get(i).buscarCaminos();
+                }
+            }
+
+            for (int i = 0; i < caminos.size(); i++) {
+                if(territoriosModelo.get(buscarTerritorio(caminos.get(i))).getSoldados()>1){
+                    moverTropas(caminos.get(i),territoriosModelo.get(tieneE).getNombre(),
+                            territoriosModelo.get(buscarTerritorio(caminos.get(i))).getSoldados()-1);
+                }
+            }
+
+
         }
 
         return tMasGrande;
@@ -204,9 +227,6 @@ public class Modelo {
     public void moverTropasMaquina(int tmasGrande){
 
         ArrayList<String> vecinos = territoriosModelo.get(tmasGrande).buscarCaminos();
-
-        //Prueba
-        this.ventana.setMensaje(vecinos.toString());
 
         for (String v: vecinos) {
             moverTropas(v,territoriosModelo.get(tmasGrande).getNombre()
@@ -225,6 +245,16 @@ public class Modelo {
             }
         }
         catch (Exception e){
+            System.out.println("Oh my god, funciona");
+            if(!tieneEnemigos(masGrande())){
+                for (int i = 0; i < territoriosModelo.size(); i++) {
+                    if(territoriosModelo.get(i).getPertenece()=='a'
+                    && (tieneEnemigos(i))){
+                        moverTropas(territoriosModelo.get(tMasGrande).getNombre(),
+                                territoriosModelo.get(i).getNombre(),territoriosModelo.get(tMasGrande).getSoldados()-1);
+                    }
+                }
+            }
         }
 
     }
@@ -266,9 +296,6 @@ public class Modelo {
         }
         return tiene;
     }
-
-
-
 
     //Getters y Setters
 
