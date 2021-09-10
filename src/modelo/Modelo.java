@@ -195,10 +195,12 @@ public class Modelo {
                     && territoriosModelo.get(i).getPertenece()=='a'
                     && territoriosModelo.get(i).getSoldados() >= territoriosModelo.get(tMasGrande).getSoldados()){
                     tMasGrande = i;
+                    /*
                     bandera=true;
                 System.out.println("Entramos");
+                */
             }
-        }
+        }/*
         if (bandera==false){
             int tieneE = -1;
             ArrayList<String> caminos = new ArrayList<String>();
@@ -217,7 +219,7 @@ public class Modelo {
             }
 
 
-        }
+        }*/
 
         return tMasGrande;
     }
@@ -239,23 +241,43 @@ public class Modelo {
     }
 
     public void ataqueMaquina(int tMasGrande){
-        try{
-            while(territoriosModelo.get(masGrande()).getSoldados()>1){
-                atacar(territoriosModelo.get(masGrande()).getNombre(),territoriosModelo.get(masGrande()).enemigos());
+    	if(tieneEnemigos(tMasGrande))
+    	{
+    		try{
+                while(territoriosModelo.get(masGrande()).getSoldados()>1){
+                    atacar(territoriosModelo.get(masGrande()).getNombre(),territoriosModelo.get(masGrande()).enemigos());
+                }
             }
-        }
-        catch (Exception e){
-            System.out.println("Oh my god, funciona");
-            if(!tieneEnemigos(masGrande())){
-                for (int i = 0; i < territoriosModelo.size(); i++) {
-                    if(territoriosModelo.get(i).getPertenece()=='a'
-                    && (tieneEnemigos(i))){
-                        moverTropas(territoriosModelo.get(tMasGrande).getNombre(),
-                                territoriosModelo.get(i).getNombre(),territoriosModelo.get(tMasGrande).getSoldados()-1);
+            catch (Exception e){
+                System.out.println("Oh my god, funciona");
+                if(!tieneEnemigos(masGrande())){
+                    for (int i = 0; i < territoriosModelo.size(); i++) {
+                        if(territoriosModelo.get(i).getPertenece()=='a'
+                        && (tieneEnemigos(i))){
+                            moverTropas(territoriosModelo.get(tMasGrande).getNombre(),
+                                    territoriosModelo.get(i).getNombre(),territoriosModelo.get(tMasGrande).getSoldados()-1);
+                        }
                     }
                 }
             }
-        }
+    	}
+    	else
+    	{
+    		for(int i=0;i<territoriosModelo.size();i++)
+    		{
+    			if (territoriosModelo.get(i).getPertenece()=='a'
+    				&& tieneEnemigos(i)
+    				&& territoriosModelo.get(i).buscarCaminos().contains
+    				(territoriosModelo.get(tMasGrande).getNombre()))
+    			{
+    				moverTropas(territoriosModelo.get(tMasGrande).getNombre(),
+    						territoriosModelo.get(i).getNombre(),
+    						territoriosModelo.get(tMasGrande).getSoldados()-1);
+    				break;
+    			}
+    		}
+    	}
+        
 
     }
 
