@@ -187,7 +187,6 @@ public class Modelo {
     //Esta parte del código tiene el turno de la máquina.
 
     public int masGrande(){
-        boolean bandera = false;
         int tMasGrande = 0;
 
         for (int i=0; i<territoriosModelo.size(); i++) {
@@ -195,31 +194,8 @@ public class Modelo {
                     && territoriosModelo.get(i).getPertenece()=='a'
                     && territoriosModelo.get(i).getSoldados() >= territoriosModelo.get(tMasGrande).getSoldados()){
                     tMasGrande = i;
-                    /*
-                    bandera=true;
-                System.out.println("Entramos");
-                */
             }
-        }/*
-        if (bandera==false){
-            int tieneE = -1;
-            ArrayList<String> caminos = new ArrayList<String>();
-            for (int i = 0; i < territoriosModelo.size(); i++) {
-                if(tieneEnemigos(i)){
-                    tieneE = i;
-                    caminos = territoriosModelo.get(i).buscarCaminos();
-                }
-            }
-
-            for (int i = 0; i < caminos.size(); i++) {
-                if(territoriosModelo.get(buscarTerritorio(caminos.get(i))).getSoldados()>1){
-                    moverTropas(caminos.get(i),territoriosModelo.get(tieneE).getNombre(),
-                            territoriosModelo.get(buscarTerritorio(caminos.get(i))).getSoldados()-1);
-                }
-            }
-
-
-        }*/
+        }
 
         return tMasGrande;
     }
