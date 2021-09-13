@@ -117,6 +117,4 @@ public class Territorio {
     public void setVisitado(boolean visitado) {
         this.visitado = visitado;
     }
-
-
 }

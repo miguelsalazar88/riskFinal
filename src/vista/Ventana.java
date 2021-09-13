@@ -103,11 +103,11 @@ public class Ventana extends JFrame {
         this.botonAtacar.setBounds(440,680,150,30);
 
         this.add(labelEventos);
-        this.labelEventos.setBounds(875,15,100,30);
+        this.labelEventos.setBounds(825,15,100,30);
 
         this.add(scrollPaneTexto);
         this.textoLogs.setEditable(false);
-        this.scrollPaneTexto.setBounds(875,50,275,400);
+        this.scrollPaneTexto.setBounds(825,50,325,400);
 
         this.add(botonTerminarTurno);
         this.botonTerminarTurno.setBounds(675,635,150,75);
