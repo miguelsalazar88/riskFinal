@@ -178,7 +178,6 @@ public class Modelo {
 
             }
         }
-
         this.ventana.getPanel().setTerritoriosVista(territoriosModelo);
         this.ventana.getPanel().repaint();
 
